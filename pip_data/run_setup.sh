@@ -1,17 +1,32 @@
 #!/bin/bash
 
-cd "$(pip_data "$0")"
-echo "Running initial Pip setup..."
+echo "Setting up Pip environment..."
 
-echo "[1/3] Creating folders..."
-mkdir -p pip_data
-mkdir -p models
-mkdir -p tmp_audio
+# Update system packages
+sudo apt-get update && sudo apt-get upgrade -y
 
-echo "[2/3] Checking config..."
-python3 verify_pip_config.py
+# Install Python 3 and pip if not already installed
+sudo apt-get install -y python3 python3-pip
 
-echo "[3/3] Installing Python dependencies..."
-pip3 install -r requirements.txt
+# Install essential Python packages
+pip3 install --upgrade pip
+pip3 install \
+  coqui-tts \
+  sounddevice \
+  pyserial \
+  vosk \
+  websockets \
+  numpy \
+  scipy
 
-echo "✅ Pip setup complete. You can now run ./run_pip.sh"
+# Optional: Install virtualenv if you plan to use a venv
+# pip3 install virtualenv
+
+# Confirm audio and serial devices are available
+echo "Audio devices:"
+arecord -l
+echo "Serial devices:"
+ls /dev/tty*
+
+echo "Setup complete. You can now run Pip using ./run_pip.sh"
+

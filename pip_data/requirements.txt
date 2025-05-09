@@ -23,3 +23,8 @@ aiohttp==3.9.5
 # General
 python-dotenv==1.0.1
 opencv-python
+
+# Webpage
+flask
+cryptography
+soundfile

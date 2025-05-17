@@ -48,8 +48,8 @@ def main():
           check_create_file(JOURNAL_TXT))
     print("VOSK_MODEL:", VOSK_MODEL, "→",
           check_create_dir(VOSK_MODEL))
-    print("TINY_LLAMA_MODEL:", TINY_LLAMA_MODEL, "→",
-          "✅ Found" if os.path.exists(TINY_LLAMA_MODEL) else "❌ Missing")
+    print("TINYLLM:", SMART_PIP, "→",
+          "✅ Found" if os.path.exists(TINYLLM) else "❌ Missing")
     print("COQUI_MODEL_DIR:", COQUI_MODEL_DIR, "→",
           check_create_dir(COQUI_MODEL_DIR))
     print("AUDIO_TMP:", AUDIO_TMP, "→",

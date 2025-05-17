@@ -1,18 +1,8 @@
-from pipeline import TinyLLM
-from pip_ai import get_response
+from pip_ai import PipAi
 
-llm = TinyLLM()
-
-print("Pip is online!")
+ai = PipAi()
 
 while True:
-    try:
-        user_input = input("You: ")
-        if user_input.strip().lower() in ["exit", "quit"]:
-            break
-
-        reply = get_response(user_input)
-        print("Pip:", reply)
-
-    except KeyboardInterrupt:
-        break
+    user_input = input("You: ")
+    response = ai.get_ai_response(user_input)
+    print("PipAi:", response)

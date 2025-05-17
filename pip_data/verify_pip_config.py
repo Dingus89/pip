@@ -4,7 +4,7 @@ from pip_config import (
     MEMORY_JSON,
     JOURNAL_TXT,
     VOSK_MODEL,
-    TINY_LLAMA_MODEL,
+    Tinyllm,
     COQUI_MODEL_DIR,
     AUDIO_TMP
 )

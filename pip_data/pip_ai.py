@@ -13,10 +13,15 @@ from pip_self_journal import PipSelfJournal
 from pip_conversation_memory import PipConversationMemory
 from pip_social_empathy import PipSocialEmpathy
 from pip_curiosity import PipCuriosity
+from pipeline import TinyLLM
+from learning.continual import ContinualLearningAI, MemoryStore
 
 
 class PipAI:
     def __init__(self):
+        self.llm = TinyLLM()
+        self.memory_store = MemoryStore("pip_memory.db")
+        self.learner = ContinualLearningAI(self.llm.model, self.memory_store)
         self.emotion_manager = EmotionManager()
         self.memory = MemoryManager()
         self.personality_manager = PersonalityManager()
@@ -36,13 +41,8 @@ class PipAI:
         self.memory.store_user_emotion("User", emotion)
 
         if self.last_question:
-            self.memory.store_user_answer(
-                self.last_question, user_input, emotion=emotion)
-            self.memory.store_named_interaction(
-                "User",
-                self.last_question,
-                user_input,
-                emotion)
+            self.memory.store_user_answer(self.last_question, user_input, emotion)
+            self.memory.store_named_interaction("User", self.last_question, user_input, emotion)
             self.last_question = None
 
         empathy_response = self.empathy.get_empathy_response()
@@ -53,13 +53,16 @@ class PipAI:
         self.emotion_manager.update_emotion(user_input, "")
         self.convo_mem.log_conversation(user_input)
 
+        self.learner.process_user_interaction(user_input, context=None)
+
         followup = self.convo_mem.get_followup_question()
         if followup:
             speak_like_johnny(followup)
             self.last_question = followup
             return followup
 
-        return self.personality_manager.generate_response(user_input)
+        return self.llm.process(user_input)
+        
 
     def run(self):
         user_name = "Alex"

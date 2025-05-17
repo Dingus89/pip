@@ -1,8 +1,8 @@
-from pip_ai import PipAi
+from pip_ai import PipAI
 
-ai = PipAi()
+ai = PipAI()
 
 while True:
     user_input = input("You: ")
     response = ai.get_ai_response(user_input)
-    print("PipAi:", response)
+    print("PipAI:", response)
